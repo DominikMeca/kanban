@@ -1,0 +1,93 @@
+{
+	"folders": [
+		{
+			"name": "kanban",
+			"path": "."
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"fivethree.vscode-svelte-snippets",
+			"svelte.svelte-vscode",
+			"csstools.postcss",
+			"esbenp.prettier-vscode",
+			"pflannery.vscode-versionlens",
+			"yoavbls.pretty-ts-errors",
+			"ms-vsliveshare.vsliveshare"
+		]
+	},
+	"settings": {
+		"editor.tabSize": 2,
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll": true
+		},
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"[javascript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"svelte.plugin.svelte.defaultScriptLanguage": "ts",
+		"svelte.enable-ts-plugin": true,
+		"[svelte]": {
+			"editor.defaultFormatter": "svelte.svelte-vscode"
+		},
+		"tailwindCSS.includeLanguages": {
+			"plaintext": "html",
+			"svelte": "html",
+			"html": "html",
+			"javascript": "javascript",
+			"css": "postcss",
+			"postcss": "postcss"
+		},
+		"eslint.lintTask.enable": true,
+		"editor.quickSuggestions": {
+			"other": true,
+			"comments": false,
+			"strings": true
+		},
+		"files.associations": {
+			"*.css": "postcss"
+		},
+		"tailwindCSS.emmetCompletions": true,
+		"git.ignoreLimitWarning": true,
+		"versionlens.suggestions.showOnStartup": true,
+		"versionlens.suggestions.showPrereleasesOnStartup": true,
+		"simpleBrowser.opener.enabled": true,
+		"simpleBrowser.opener.enabled": true
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Run dev",
+				"request": "launch",
+				"type": "node-terminal",
+				"command": "npm run dev",
+				"cwd": "${workspaceRoot}${pathSeparator}"
+			}
+		],
+		"compounds": []
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Kanban",
+				"type": "shell",
+				"command": "echo 'Kanban';npm i;npm run lint;npm run check",
+				"options": {
+					"cwd": "${workspaceRoot}${pathSeparator}"
+				},
+				"presentation": {
+					"reveal": "always",
+					"panel": "shared"
+				},
+				"runOptions": {
+					"runOn": "folderOpen"
+				},
+				"group": "none"
+			}
+		]
+	}
+}
