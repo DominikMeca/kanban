@@ -14,6 +14,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
+		"@types/sortablejs": "^1.15.1",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"eslint": "^8.28.0",
@@ -29,5 +30,9 @@
 		"vite": "^4.3.0",
 		"zod": "^3.21.4"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"sortablejs": "^1.15.0",
+		"svelte-legos": "^0.2.1"
+	}
 }

@@ -4,17 +4,48 @@
 	import FormItem from '$lib/FormItem.svelte';
 	import PasswordInput from '$lib/PasswordInput.svelte';
 	import TextInput from '$lib/TextInput.svelte';
+	import { superForm } from 'sveltekit-superforms/client';
+	import { loginSchema } from './schema';
+	import type { Validation } from 'sveltekit-superforms/index';
+	import { page } from '$app/stores';
+
+	export let form: Validation<typeof loginSchema>;
+
+	const {
+		form: formData,
+		constraints,
+		errors,
+		enhance
+	} = superForm<typeof loginSchema>(form, {
+		validators: loginSchema,
+		id: 'login'
+	});
+
+	$: pageQuery = $page.url.searchParams.get('redirectUrl') ?? $page?.form?.redirectUrl ?? '/';
 </script>
 
 <div class="login">
 	<div class="login__panel">
 		<h2 class="login__title">Login</h2>
-		<Form>
-			<FormItem>
-				<TextInput id="input-username" label="Username" />
+		<Form method="POST" {enhance}>
+			<input type="hidden" name="redirectUrl" value={pageQuery} />
+			<FormItem error={!!$errors.username}>
+				<TextInput
+					id="username"
+					label="Username"
+					bind:value={$formData.username}
+					error={!!$errors.username}
+					{...$constraints.username}
+				/>
 			</FormItem>
-			<FormItem>
-				<PasswordInput id="input-password" label="Password" />
+			<FormItem error={!!$errors.password}>
+				<PasswordInput
+					id="password"
+					label="Password"
+					bind:value={$formData.password}
+					error={!!$errors.password}
+					{...$constraints.password}
+				/>
 			</FormItem>
 			<FormItem>
 				<Button type="submit" align="end">Log In</Button>

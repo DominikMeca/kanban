@@ -1,20 +1,45 @@
 <script lang="ts">
+	import ColorInput from '$lib/ColorInput.svelte';
 	import FormItem from '$lib/FormItem.svelte';
+	import FileInput from '$lib/FileInput.svelte';
 </script>
 
-<div class="panel">
-	<h2 class="panel__title">Settings</h2>
-	<div class="panel__body">
-		<form class="form" action="">
-			<FormItem>
-				<label for="input-primary-color">Primary color</label>
-				<input id="input-primary-color" type="color" class="input" value="#2563eb" data-primary />
-			</FormItem>
-		</form>
+<div class="content content--narrow">
+	<div class="panel">
+		<h2 class="panel__title">Settings</h2>
+		<div class="panel__body">
+			<div class="form">
+				<FormItem>
+					<ColorInput label={'Primary Color'} storageKey={'primary'} />
+				</FormItem>
+				<FormItem>
+					<ColorInput label={'Secondary Color'} storageKey={'secondary'} />
+				</FormItem>
+				<FormItem>
+					<ColorInput label={'Ternary Color'} storageKey={'ternary'} />
+				</FormItem>
+				<FormItem>
+					<ColorInput label={'Text Color'} storageKey={'text'} />
+				</FormItem>
+				<FormItem>
+					<FileInput />
+				</FormItem>
+			</div>
+		</div>
 	</div>
 </div>
 
 <style>
+	.content {
+		padding: 1.5rem;
+		margin-inline: auto;
+		width: 100%;
+	}
+
+	.content--narrow {
+		max-width: 980px;
+	}
+
 	.panel {
 		backdrop-filter: blur(1px);
 		background-color: rgba(255, 255, 255, 0.6);
@@ -32,16 +57,8 @@
 	.panel__body {
 		padding: 1rem;
 	}
-
-	.input {
-		width: 100%;
-		border: 1px solid #1f3a8a24;
-		border-radius: 4px;
-		padding: 0.8rem;
-		outline: 0;
-		font-family: var(--base-font);
-		height: 3.3rem;
-		appearance: none;
-		-webkit-appearance: none;
+	.form {
+		display: grid;
+		gap: 1.4rem;
 	}
 </style>

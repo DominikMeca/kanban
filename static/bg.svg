@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" class="svg-background" xmlns="http://www.w3.org/2000/svg">
+    <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="styles/svg-background.css" type="text/css"/>
 	<defs>
         <radialGradient id="Gradient1" cx="50%" cy="50%" fx="0.441602%" fy="50%" r=".5">
             <animate attributeName="fx" dur="34s" values="0%;3%;0%" repeatCount="indefinite"></animate>

@@ -9,7 +9,22 @@
 {#if label}
 	<label for={id}>{label}</label>
 {/if}
-<input {id} type="password" class="input" class:multiline class:error bind:value />
+<input
+	{id}
+	name={id}
+	type="password"
+	class="input"
+	class:multiline
+	class:error
+	bind:value
+	on:input
+	on:change
+	on:focus
+	on:focusin
+	on:focusout
+	on:blur
+	{...$$restProps}
+/>
 
 <style>
 	label {
