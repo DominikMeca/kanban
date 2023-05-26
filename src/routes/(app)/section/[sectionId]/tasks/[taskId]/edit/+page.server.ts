@@ -29,7 +29,6 @@ export async function load({ params, locals, url }) {
 		});
 	}
 
-	console.log(sectionResult);
 	const sections = await sectionLoadSchema.parseAsync(sectionResult.items);
 
 	const editForm = await superValidate(taskResult, taskEditSchema, {

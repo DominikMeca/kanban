@@ -71,6 +71,11 @@
 		/>
 	</FormItem>
 	<FormItem>
-		<Button type="submit" align="end">Submit</Button>
+		<div style="margin-left: auto;">
+			<Button action="/section/${sectionId}/tasks/${task.id}/delete" type="submit" align="start"
+				>Delete</Button
+			>
+			<Button type="submit" align="end">Submit</Button>
+		</div>
 	</FormItem>
 </Form>

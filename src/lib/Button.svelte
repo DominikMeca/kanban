@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let action: string | undefined = undefined;
 	export let type: 'button' | 'submit' = 'button';
 	export let size: 'small' | 'normal' = 'normal';
 	export let align: 'start' | 'end' | undefined = undefined;
@@ -6,6 +7,7 @@
 
 <button
 	{type}
+	formaction={action}
 	class="button"
 	class:submit={type === 'submit'}
 	class:small={size === 'small'}

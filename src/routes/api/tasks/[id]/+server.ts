@@ -7,7 +7,6 @@ export async function PATCH({ locals, params, request }) {
 	const body = await request.json();
 	const validatedBody = await taskSchemaInput.parseAsync(body);
 
-	console.log('Why?', validatedBody);
 	const response = await locals
 		.pb(`api/collections/tasks/records/${id}`, {
 			method: 'PATCH',
