@@ -1,8 +1,12 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+
 	export let open: boolean = false;
 	export let title: string | undefined = undefined;
 
 	let closing = false;
+
+	let dispatcher = createEventDispatcher<{ close: void }>();
 
 	let dialog: HTMLDialogElement;
 	const toggleOpen = (newOpen: boolean) => {
@@ -23,7 +27,8 @@
 	const handleAnimationEnd = () => {
 		if (!closing) return;
 		closing = false;
-		dialog.removeAttribute('open');
+		dialog.close();
+		dispatcher('close');
 	};
 
 	$: dialog && toggleOpen(open);
@@ -50,7 +55,9 @@
 		</svg>
 	</button>
 
-	<slot />
+	{#if open || closing}
+		<slot />
+	{/if}
 </dialog>
 
 <style>

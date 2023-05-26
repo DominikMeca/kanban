@@ -1,9 +1,23 @@
 <script lang="ts">
 	import { theme } from '$lib/store';
 
-    const processFile = (event: ) => {
+	const processFile = (event: any) => {
+		if (!event.target.files.length) return;
 
-    }
+		const [file] = event.target.files;
+		const reader = new FileReader();
+
+		reader.onload = (_event) => {
+			theme.update((_theme) => {
+				return {
+					..._theme,
+					background: reader.result?.toString() ?? ''
+				};
+			});
+		};
+
+		reader.readAsDataURL(file);
+	};
 </script>
 
 <label for="input-background-image">Background Image</label>

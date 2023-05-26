@@ -7,10 +7,24 @@ export async function PATCH({ locals, params, request }) {
 	const body = await request.json();
 	const validatedBody = await taskSchemaInput.parseAsync(body);
 
+	console.log('Why?', validatedBody);
 	const response = await locals
 		.pb(`api/collections/tasks/records/${id}`, {
 			method: 'PATCH',
 			body: JSON.stringify(validatedBody)
+		})
+		.then((res) => res.json());
+
+	return json(response);
+}
+
+export async function DELETE({ locals, params }) {
+	if (!locals.session) throw Error('Not authorized!');
+	const { id } = params;
+
+	const response = await locals
+		.pb(`api/collections/tasks/records/${id}`, {
+			method: 'DELETE'
 		})
 		.then((res) => res.json());
 

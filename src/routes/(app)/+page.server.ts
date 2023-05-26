@@ -28,7 +28,6 @@ export async function load({ locals, depends }) {
 		.pb('api/collections/sections/records?expand=tasks(section)')
 		.then((res) => res.json());
 
-	console.log(JSON.stringify(result));
 	const data = await loadResult.parseAsync(result);
 	return {
 		sections: data.items.map(

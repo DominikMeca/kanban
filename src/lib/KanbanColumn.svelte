@@ -1,12 +1,37 @@
 <script lang="ts">
 	import Sortable from 'sortablejs';
 	import KanbanColumnItem from '$lib/KanbanColumnItem.svelte';
-	import type { Task } from './section';
+	import type { Section, Task, taskAddSchema, taskEditSchema } from './section';
 	import { invalidate } from '$app/navigation';
+	import Modal from './Modal.svelte';
+	import type { Validation } from 'sveltekit-superforms/index';
+	import KanbanAddForm from './KanbanAddForm.svelte';
+	import LinkButton from './LinkButton.svelte';
 
+	export let formAdd: Validation<typeof taskAddSchema>;
+	export let formEdit: Validation<typeof taskEditSchema>;
 	export let id: string;
 	export let title: string;
 	export let items: Task[];
+	export let sections: Section[];
+
+	type ModalData = {
+		title: string;
+		open: boolean;
+	};
+	let modal: ModalData = {
+		title: 'Add Task',
+		open: false
+	};
+
+	const handleOpen = (ev: MouseEvent) => {
+		ev.preventDefault();
+		modal.open = true;
+	};
+
+	const handleClose = () => {
+		modal.open = false;
+	};
 
 	function sortable(el: HTMLElement, name: string) {
 		Sortable.create(el, {
@@ -16,6 +41,7 @@
 			},
 			animation: 200,
 			sort: false,
+			draggable: '.kanban-item',
 			onEnd(ev) {
 				ev.preventDefault();
 
@@ -49,15 +75,25 @@
 	</header>
 	<div class="kanban-column__content" use:sortable={title} data-id={id}>
 		{#each items as item}
-			<KanbanColumnItem
-				id={item.id}
-				description={item.description}
-				title={item.title}
-				priority={item.field}
-			/>
+			<KanbanColumnItem {sections} sectionId={id} task={item} form={formEdit} />
 		{/each}
 	</div>
+	<footer class="kanban-column__footer" data-add-task>
+		<LinkButton href="/section/{id}/tasks/new" size="small" on:click={handleOpen}>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+				<path
+					fill="currentColor"
+					d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+				/>
+			</svg>
+			Add Task
+		</LinkButton>
+	</footer>
 </section>
+
+<Modal title={modal.title} open={modal.open} on:close={handleClose}>
+	<KanbanAddForm sectionId={id} form={formAdd} />
+</Modal>
 
 <style>
 	.kanban-column {

@@ -1,13 +1,23 @@
 <script lang="ts">
 	import KanbanColumn from '$lib/KanbanColumn.svelte';
-	import type { Section } from './section';
+	import type { Validation } from 'sveltekit-superforms/index';
+	import type { Section, taskAddSchema, taskEditSchema } from './section';
 
+	export let formAdd: Validation<typeof taskAddSchema>;
+	export let formEdit: Validation<typeof taskEditSchema>;
 	export let data: Section[];
 </script>
 
 <div class="kanban-board">
 	{#each data as column}
-		<KanbanColumn id={column.id} title={column.title} items={column.tasks} />
+		<KanbanColumn
+			sections={data}
+			id={column.id}
+			title={column.title}
+			items={column.tasks}
+			{formAdd}
+			{formEdit}
+		/>
 	{/each}
 </div>
 

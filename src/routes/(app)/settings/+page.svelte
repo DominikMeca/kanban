@@ -34,6 +34,7 @@
 		padding: 1.5rem;
 		margin-inline: auto;
 		width: 100%;
+		overflow: auto;
 	}
 
 	.content--narrow {

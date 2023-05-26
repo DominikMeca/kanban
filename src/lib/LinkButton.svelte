@@ -1,20 +1,19 @@
 <script lang="ts">
-	export let type: 'button' | 'submit' = 'button';
 	export let size: 'small' | 'normal' = 'normal';
 	export let align: 'start' | 'end' | undefined = undefined;
+	export let href: string;
 </script>
 
-<button
-	{type}
+<a
+	{href}
 	class="button"
-	class:submit={type === 'submit'}
 	class:small={size === 'small'}
 	class:end={align === 'end'}
 	class:start={align === 'start'}
 	on:click
 >
 	<slot />
-</button>
+</a>
 
 <style>
 	.button {
@@ -30,6 +29,7 @@
 		border-radius: 5px;
 		font-weight: 600;
 		cursor: pointer;
+		text-decoration: none;
 	}
 
 	.button :global(svg) {

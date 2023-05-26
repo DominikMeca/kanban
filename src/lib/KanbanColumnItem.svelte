@@ -1,16 +1,43 @@
 <script lang="ts">
-	export let id: string;
-	export let title: string;
-	export let description: string | undefined = undefined;
-	export let priority: string;
+	import Modal from './Modal.svelte';
+	import type { Validation } from 'sveltekit-superforms/index';
+	import KanbanEditForm from './KanbanEditForm.svelte';
+	import { taskEditSchema, type Task, type Section } from './section';
+	import { superValidate } from 'sveltekit-superforms/client';
+	import LinkButton from './LinkButton.svelte';
+
+	export let form: Validation<typeof taskEditSchema>;
+	export let sectionId: string;
+	export let task: Task;
+	export let sections: Section[];
+
+	const editForm = superValidate({ section: sectionId, ...task }, taskEditSchema);
+
+	type ModalData = {
+		title: string;
+		open: boolean;
+	};
+	let modal: ModalData = {
+		title: 'Edit Task',
+		open: false
+	};
+
+	const handleOpen = (ev: MouseEvent) => {
+		ev.preventDefault();
+		modal.open = true;
+	};
+
+	const handleClose = () => {
+		modal.open = false;
+	};
 </script>
 
-<article class="kanban-item" data-id={id}>
+<article class="kanban-item" data-id={task.id}>
 	<p class="kanban-item__text">
-		{title}
+		{task.title}
 	</p>
 	<div class="kanban-item__footer">
-		{#if priority === 'high'}
+		{#if task.field === 'high'}
 			<div class="kanban-item__priority kanban-item__priority--high">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
 					<path
@@ -19,7 +46,7 @@
 					/>
 				</svg>
 			</div>
-		{:else if priority === 'low'}
+		{:else if task.field === 'low'}
 			<div class="kanban-item__priority kanban-item__priority--low">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
 					<path
@@ -39,7 +66,7 @@
 			</div>
 		{/if}
 
-		<button class="kanban-item__edit">
+		<LinkButton href="/section/{sectionId}/tasks/{task.id}/edit" on:click={handleOpen} size="small">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 				<path
 					fill="currentColor"
@@ -47,9 +74,15 @@
 				/>
 			</svg>
 			Edit
-		</button>
+		</LinkButton>
 	</div>
 </article>
+
+{#await editForm then form}
+	<Modal title={modal.title} open={modal.open} on:close={handleClose}>
+		<KanbanEditForm {sectionId} {sections} {task} {form} />
+	</Modal>
+{/await}
 
 <style>
 	.kanban-item {
@@ -89,7 +122,7 @@
 		width: auto;
 	}
 
-	.kanban-item__edit {
+	.kanban-item__footer > :global(button) {
 		background: transparent;
 		cursor: pointer;
 		display: flex;
@@ -99,7 +132,7 @@
 		font-weight: 700;
 	}
 
-	.kanban-item__edit svg {
+	.kanban-item__footer > :global(button) > :global(svg) {
 		height: 1em;
 		width: auto;
 	}

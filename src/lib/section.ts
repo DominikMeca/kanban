@@ -11,6 +11,31 @@ export const taskSchemaInput = taskSchema.extend({
 	section: z.string()
 });
 
+export const taskDeleteSchema = taskSchema.pick({
+	id: true
+});
+
+export const taskAddSchema = taskSchema.pick({
+	field: true,
+	description: true,
+	title: true
+});
+
+export const taskAddSchemaWithSection = taskAddSchema.extend({
+	section: z.string()
+});
+
+export const taskEditSchema = taskSchema
+	.pick({
+		id: true,
+		field: true,
+		description: true,
+		title: true
+	})
+	.extend({
+		section: z.string()
+	});
+
 export type Task = z.infer<typeof taskSchema>;
 
 export const sectionSchema = z.object({

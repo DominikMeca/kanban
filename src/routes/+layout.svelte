@@ -26,5 +26,6 @@
 <style>
 	.wrapper {
 		display: contents;
+		overflow: hidden;
 	}
 </style>
