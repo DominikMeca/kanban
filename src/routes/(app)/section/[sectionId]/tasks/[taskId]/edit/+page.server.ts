@@ -1,26 +1,42 @@
 import { ensureSession } from '$lib/auth.server.js';
-import { taskEditSchema } from '$lib/section.js';
+import { sectionSchema, taskEditSchema, type Task } from '$lib/section.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
+import { z } from 'zod';
+
+const sectionLoadSchema = z.array(sectionSchema.omit({ tasks: true }));
 
 export async function load({ params, locals, url }) {
 	ensureSession(locals, url.pathname);
 
-	const result = await locals
+	const taskResult = await locals
 		.pb(`api/collections/tasks/records/${params.taskId}`)
 		.then((res) => res.json());
 
-	if (result.code === 404) {
+	if (taskResult.code === 404) {
 		throw error(404, {
 			message: 'Not found!'
 		});
 	}
 
-	const editForm = await superValidate(result, taskEditSchema, {
+	const sectionResult = await locals
+		.pb(`api/collections/sections/records`)
+		.then((res) => res.json());
+
+	if (sectionResult.code === 400) {
+		throw error(400, {
+			message: 'Error'
+		});
+	}
+
+	console.log(sectionResult);
+	const sections = await sectionLoadSchema.parseAsync(sectionResult.items);
+
+	const editForm = await superValidate(taskResult, taskEditSchema, {
 		id: 'edit-task'
 	});
 
-	return { editForm };
+	return { task: taskResult as Task, editForm, sections };
 }
 
 export const actions = {

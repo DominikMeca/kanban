@@ -28,8 +28,6 @@
 		id: 'edit-task',
 		resetForm: true
 	});
-
-	$: console.log($formData.section);
 </script>
 
 <Form {enhance} method="POST" action={`/section/${sectionId}/tasks/${task.id}/edit`}>

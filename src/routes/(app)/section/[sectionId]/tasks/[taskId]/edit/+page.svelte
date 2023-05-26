@@ -1,5 +1,5 @@
 <script lang="ts">
-	import KanbanEditForm from '$lib/KanbanAddForm.svelte';
+	import KanbanEditForm from '$lib/KanbanEditForm.svelte';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 
@@ -8,7 +8,12 @@
 
 <div class="login">
 	<div class="login__panel">
-		<KanbanEditForm form={data.editForm} sectionId={$page.params.sectionId} />
+		<KanbanEditForm
+			task={data.task}
+			form={data.editForm}
+			sections={data.sections}
+			sectionId={$page.params.sectionId}
+		/>
 	</div>
 </div>
 
